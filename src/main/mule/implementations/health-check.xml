@@ -6,8 +6,17 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/custom-logger http://www.mulesoft.org/schema/mule/custom-logger/current/mule-custom-logger.xsd">
-	 <flow name="get:\health-check:covid-papi-config">
-        <logger level="INFO" message="get:\health-check:covid-papi-config" />
-    </flow>
-   
+	<flow name="get:\health-check:covid-papi-config">
+        <ee:transform doc:name="Set Response" doc:id="4267b029-0216-4b20-a431-3144f0bb2f3e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: app.name ++ " is alive and kicking"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    
+</flow>
 	</mule>

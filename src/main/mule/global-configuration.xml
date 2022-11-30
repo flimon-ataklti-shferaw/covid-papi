@@ -9,8 +9,17 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
 	<http:listener-config name="covid-papi-httpListenerConfig" basePath="covid">
-        <http:listener-connection host="0.0.0.0" port="8081" />
+        <http:listener-connection host="0.0.0.0" port="${secure::http.port}" />
     </http:listener-config>
     <apikit:config name="covid-papi-config" api="covid-papi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-    
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="a5675692-a278-4d1a-a516-7ea394b6a135" file="${env}.yaml" key="${enc.key}" />
+	<http:request-config name="HTTP_UHUB_SAPI_Request_configuration" doc:name="HTTP Request configuration" doc:id="648b13ce-8c97-4131-883c-a6dc1ae60ef3" basePath="/${secure::ehub.sapi.basepath}" >
+		<http:request-connection host="${secure::ehub.sapi.host}" port="${secure::ehub.sapi.port}" />
+	</http:request-config>
+	<http:request-config name="HTTP_AWS_SAPI_Request_configuration" doc:name="HTTP Request configuration" doc:id="03733922-eb7d-4d35-be3a-94829ca8c089" basePath="/${secure::aws.sapi.basepath}">
+		<http:request-connection host="${secure::aws.sapi.host}" port="${secure::aws.sapi.port}" />
+	</http:request-config>
+	<http:request-config name="HTTP_WHO_Request_configuration" doc:name="HTTP Request configuration" doc:id="adb99cf2-03e3-4657-b79d-020da67a1b80" basePath="/${secure::who.sapi.basepath}">
+		<http:request-connection host="${secure::who.sapi.host}" port="${secure::who.sapi.port}" />
+	</http:request-config>
 </mule>
